@@ -3,15 +3,15 @@ package com.example.eventbusdemo.classic;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.example.eventbusdemo.R;
-import com.example.eventbusdemo.classic.callback.FragmentChangeCallback;
 import com.example.eventbusdemo.classic.callback.ToolbarColorChangeCallback;
 import com.example.eventbusdemo.classic.controller.DefaultFragmentControllerImpl;
 import com.example.eventbusdemo.classic.controller.FragmentController;
-import com.example.eventbusdemo.classic.dataset.Color;
+import com.example.eventbusdemo.dataset.Color;
 
-public class MainActivity extends AppCompatActivity implements ToolbarColorChangeCallback {
+public class MainActivityClassic extends AppCompatActivity implements ToolbarColorChangeCallback {
 
     private FragmentController fragmentController;
 
@@ -33,6 +33,15 @@ public class MainActivity extends AppCompatActivity implements ToolbarColorChang
     @Override
     public void onColorChange(Color color) {
         toolbar.setBackgroundColor(color.getBackgroundColor());
+        Log.d("EventBusDemo", "Color Change Callback");
     }
 
+    @Override
+    public void onBackPressed() {
+        if (fragmentController.isSecondFragmentActive()) {
+            fragmentController.displayFirstFragment();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

@@ -22,9 +22,24 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/classic_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Classic"/>
+
+        <Button
+            android:id="@+id/eventbus_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EventBus"/>
+
+    </LinearLayout>
 
 </LinearLayout>

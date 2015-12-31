@@ -11,11 +11,12 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 /**
  * Created by petnagy on 2015. 12. 30..
  */
-public class LocationService extends Service implements LocationListener {
+public class LocationServiceClassic extends Service implements LocationListener {
 
     private static long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
 
@@ -25,20 +26,21 @@ public class LocationService extends Service implements LocationListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d("EventBusDemo", "LocationServiceClassic start");
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             if (locationManager == null) {
                 locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-
-                Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if (gpsLocation != null) {
-                    onLocationChanged(gpsLocation);
-                }
-
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                         MIN_TIME_BW_UPDATES,
                         MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+            }
+
+            Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (gpsLocation != null) {
+                onLocationChanged(gpsLocation);
             }
         }
 
@@ -47,6 +49,8 @@ public class LocationService extends Service implements LocationListener {
 
     @Override
     public void onDestroy() {
+        Log.d("EventBusDemo", "LocationServiceClassic Destroyed");
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.removeUpdates(this);
@@ -63,6 +67,8 @@ public class LocationService extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.d("EventBusDemo", "Location Changed");
+
         Intent intent =new Intent("com.example.location");
         intent.putExtra("LOCATION", location);
         sendBroadcast(intent);

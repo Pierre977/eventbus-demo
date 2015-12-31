@@ -1,4 +1,4 @@
-package com.example.eventbusdemo.classic.controller;
+package com.example.eventbusdemo.witheventbus.controller;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,14 +7,17 @@ import android.util.Log;
 
 import com.example.eventbusdemo.R;
 import com.example.eventbusdemo.classic.callback.FragmentChangeCallback;
-import com.example.eventbusdemo.classic.callback.ToolbarColorChangeCallback;
-import com.example.eventbusdemo.classic.fragments.FirstFragment;
-import com.example.eventbusdemo.classic.fragments.SecondFragment;
+import com.example.eventbusdemo.witheventbus.event.FragmentChangeListener;
+import com.example.eventbusdemo.witheventbus.event.InnerFragment;
+import com.example.eventbusdemo.witheventbus.fragments.FirstFragment;
+import com.example.eventbusdemo.witheventbus.fragments.SecondFragment;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by petnagy on 2015. 12. 30..
  */
-public class DefaultFragmentControllerImpl implements FragmentController, FragmentChangeCallback {
+public class DefaultFragmentControllerImpl implements FragmentController, FragmentChangeListener {
 
     private static final String TAG_FIRST = "firstFragment";
 
@@ -22,16 +25,13 @@ public class DefaultFragmentControllerImpl implements FragmentController, Fragme
 
     private FragmentManager fragmentManager;
 
-    private ToolbarColorChangeCallback colorChangeCallback;
-
-    public DefaultFragmentControllerImpl(FragmentManager fragmentManager, ToolbarColorChangeCallback colorChangeCallback) {
+    public DefaultFragmentControllerImpl(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
-        this.colorChangeCallback = colorChangeCallback;
     }
 
     @Override
     public void displayFirstFragment() {
-        replaceFragment(FirstFragment.newInstance(colorChangeCallback, this), TAG_FIRST);
+        replaceFragment(FirstFragment.newInstance(), TAG_FIRST);
     }
 
     @Override
@@ -45,6 +45,16 @@ public class DefaultFragmentControllerImpl implements FragmentController, Fragme
         return fragment != null;
     }
 
+    @Override
+    public void registerEventBus() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void unregisterEventBus() {
+        EventBus.getDefault().unregister(this);
+    }
+
     private void replaceFragment(Fragment fragment, String tag) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -53,8 +63,12 @@ public class DefaultFragmentControllerImpl implements FragmentController, Fragme
     }
 
     @Override
-    public void onNextFragment() {
-        displaySecondFragment();
-        Log.d("EventBusDemo", "Fragment Change Callback");
+    public void onEvent(InnerFragment innerFragment) {
+        if (innerFragment.equals(InnerFragment.SECOND)) {
+            displaySecondFragment();
+        } else {
+            displayFirstFragment();
+        }
+        Log.d("EventBusDemo", "Fragment Change Event");
     }
 }

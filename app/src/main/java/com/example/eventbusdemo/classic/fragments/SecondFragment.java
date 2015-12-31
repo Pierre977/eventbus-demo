@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.example.eventbusdemo.R;
 import com.example.eventbusdemo.classic.controller.DefaultSecondViewControllerImpl;
 import com.example.eventbusdemo.classic.controller.SecondViewController;
-import com.example.eventbusdemo.classic.service.LocationService;
+import com.example.eventbusdemo.classic.service.LocationServiceClassic;
 
 /**
  * Created by petnagy on 2015. 12. 30..
@@ -47,14 +47,15 @@ public class SecondFragment extends Fragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.example.location");
         getActivity().registerReceiver(locationChangeReceiver, filter);
-
-        Intent locationService = new Intent(getActivity(), LocationService.class);
+        Intent locationService = new Intent(getActivity(), LocationServiceClassic.class);
         getActivity().startService(locationService);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        Intent intent = new Intent(getActivity(), LocationServiceClassic.class);
+        getActivity().stopService(intent);
         getActivity().unregisterReceiver(locationChangeReceiver);
     }
 

@@ -1,4 +1,4 @@
-package com.example.eventbusdemo.classic.controller;
+package com.example.eventbusdemo.witheventbus.controller;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -6,10 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.eventbusdemo.R;
-import com.example.eventbusdemo.classic.adapter.DefaultRecyclerViewAdapter;
-import com.example.eventbusdemo.classic.callback.FragmentChangeCallback;
-import com.example.eventbusdemo.classic.callback.ToolbarColorChangeCallback;
 import com.example.eventbusdemo.dataset.Color;
+import com.example.eventbusdemo.witheventbus.adapter.DefaultRecyclerViewAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,10 +24,10 @@ public class DefaultFirstViewControllerImpl implements FirstViewController {
     }
 
     @Override
-    public void setupViews(View view, ToolbarColorChangeCallback colorChangeCallback, FragmentChangeCallback fragmentChangeCallback) {
+    public void setupViews(View view) {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        DefaultRecyclerViewAdapter adapter = new DefaultRecyclerViewAdapter(generateColorList(), colorChangeCallback, fragmentChangeCallback);
+        DefaultRecyclerViewAdapter adapter = new DefaultRecyclerViewAdapter(generateColorList());
         recyclerView.setAdapter(adapter);
     }
 

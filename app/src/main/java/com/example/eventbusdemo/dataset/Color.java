@@ -1,4 +1,4 @@
-package com.example.eventbusdemo.classic.dataset;
+package com.example.eventbusdemo.dataset;
 
 /**
  * Created by petnagy on 2015. 12. 30..

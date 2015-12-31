@@ -1,4 +1,4 @@
-package com.example.eventbusdemo.classic.adapter;
+package com.example.eventbusdemo.witheventbus.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,11 +9,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.eventbusdemo.R;
-import com.example.eventbusdemo.classic.callback.FragmentChangeCallback;
-import com.example.eventbusdemo.classic.callback.ToolbarColorChangeCallback;
 import com.example.eventbusdemo.dataset.Color;
+import com.example.eventbusdemo.witheventbus.event.InnerFragment;
+
 
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by petnagy on 2015. 12. 30..
@@ -26,14 +28,8 @@ public class DefaultRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private List<Color> colorList;
 
-    private ToolbarColorChangeCallback colorChangeCallback;
-
-    private FragmentChangeCallback fragmentChangeCallback;
-
-    public DefaultRecyclerViewAdapter(List<Color> colorList, ToolbarColorChangeCallback colorChangeCallback, FragmentChangeCallback fragmentChangeCallback) {
+    public DefaultRecyclerViewAdapter(List<Color> colorList) {
         this.colorList = colorList;
-        this.colorChangeCallback = colorChangeCallback;
-        this.fragmentChangeCallback = fragmentChangeCallback;
     }
 
     protected class FragmentItemViewHolder extends RecyclerView.ViewHolder {
@@ -82,14 +78,14 @@ public class DefaultRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             ((ColorChangeViewHolder)holder).colorChangeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    colorChangeCallback.onColorChange(color);
+                    EventBus.getDefault().post(color);
                 }
             });
         } else if (position == colorList.size()) {
             ((FragmentItemViewHolder)holder).fragmentChangeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fragmentChangeCallback.onNextFragment();
+                    EventBus.getDefault().post(InnerFragment.SECOND);
                 }
             });
         }
