@@ -11,7 +11,7 @@ import com.example.eventbusdemo.classic.controller.DefaultFragmentControllerImpl
 import com.example.eventbusdemo.classic.controller.FragmentController;
 import com.example.eventbusdemo.classic.dataset.Color;
 
-public class MainActivity extends AppCompatActivity implements ToolbarColorChangeCallback, FragmentChangeCallback {
+public class MainActivity extends AppCompatActivity implements ToolbarColorChangeCallback {
 
     private FragmentController fragmentController;
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarColorChang
         setSupportActionBar(toolbar);
 
         if (fragmentController == null) {
-            fragmentController = new DefaultFragmentControllerImpl(getSupportFragmentManager(), this, this);
+            fragmentController = new DefaultFragmentControllerImpl(getSupportFragmentManager(), this);
         }
         fragmentController.displayFirstFragment();
     }
@@ -35,8 +35,4 @@ public class MainActivity extends AppCompatActivity implements ToolbarColorChang
         toolbar.setBackgroundColor(color.getBackgroundColor());
     }
 
-    @Override
-    public void onNextFragment() {
-        fragmentController.displaySecondFragment();
-    }
 }

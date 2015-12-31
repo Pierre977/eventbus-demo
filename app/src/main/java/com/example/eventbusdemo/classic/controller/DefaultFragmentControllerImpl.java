@@ -13,7 +13,7 @@ import com.example.eventbusdemo.classic.fragments.SecondFragment;
 /**
  * Created by petnagy on 2015. 12. 30..
  */
-public class DefaultFragmentControllerImpl implements FragmentController {
+public class DefaultFragmentControllerImpl implements FragmentController, FragmentChangeCallback {
 
     private static final String TAG_CONTENT = "tagContent";
 
@@ -21,17 +21,14 @@ public class DefaultFragmentControllerImpl implements FragmentController {
 
     private ToolbarColorChangeCallback colorChangeCallback;
 
-    private FragmentChangeCallback fragmentChangeCallback;
-
-    public DefaultFragmentControllerImpl(FragmentManager fragmentManager, ToolbarColorChangeCallback colorChangeCallback, FragmentChangeCallback fragmentChangeCallback) {
+    public DefaultFragmentControllerImpl(FragmentManager fragmentManager, ToolbarColorChangeCallback colorChangeCallback) {
         this.fragmentManager = fragmentManager;
         this.colorChangeCallback = colorChangeCallback;
-        this.fragmentChangeCallback = fragmentChangeCallback;
     }
 
     @Override
     public void displayFirstFragment() {
-        replaceFragment(FirstFragment.newInstance(colorChangeCallback, fragmentChangeCallback));
+        replaceFragment(FirstFragment.newInstance(colorChangeCallback, this));
     }
 
     @Override
@@ -46,4 +43,8 @@ public class DefaultFragmentControllerImpl implements FragmentController {
                 .commit();
     }
 
+    @Override
+    public void onNextFragment() {
+        displaySecondFragment();
+    }
 }
