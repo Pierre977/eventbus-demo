@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity implements ColorChangeListen
         super.onStop();
         EventBus.getDefault().unregister(this);
         fragmentController.unregisterEventBus();
+        stopLocationService();
+    }
+
+    private void stopLocationService() {
+        Intent intent = new Intent(this, LocationService.class);
+        stopService(intent);
     }
 
     @Override
