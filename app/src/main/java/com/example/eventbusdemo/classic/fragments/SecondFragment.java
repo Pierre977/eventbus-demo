@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,18 @@ public class SecondFragment extends Fragment {
             viewController = new DefaultSecondViewControllerImpl();
         }
 
+        registerLocationBroadcastReceiver();
+        startLocationService();
+    }
+
+    private void registerLocationBroadcastReceiver() {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.example.location");
         getActivity().registerReceiver(locationChangeReceiver, filter);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(locationChangeReceiver, filter);
+    }
+
+    private void startLocationService() {
         Intent locationService = new Intent(getActivity(), LocationServiceClassic.class);
         getActivity().startService(locationService);
     }
@@ -54,9 +64,13 @@ public class SecondFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        stopLocationService();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(locationChangeReceiver);
+    }
+
+    private void stopLocationService() {
         Intent intent = new Intent(getActivity(), LocationServiceClassic.class);
         getActivity().stopService(intent);
-        getActivity().unregisterReceiver(locationChangeReceiver);
     }
 
     @Nullable
