@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.eventbusdemo.R;
 import com.example.eventbusdemo.dataset.Color;
-import com.example.eventbusdemo.witheventbus.event.InnerFragment;
+import com.example.eventbusdemo.dataset.InnerFragment;
 
 
 import java.util.List;

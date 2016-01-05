@@ -38,7 +38,7 @@ public class MainActivityClassic extends AppCompatActivity implements ToolbarCol
 
     @Override
     public void onBackPressed() {
-        if (fragmentController.isSecondFragmentActive()) {
+        if (!fragmentController.isFirstFragmentActive()) {
             fragmentController.displayFirstFragment();
         } else {
             super.onBackPressed();

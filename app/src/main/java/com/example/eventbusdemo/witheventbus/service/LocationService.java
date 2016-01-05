@@ -42,6 +42,7 @@ public class LocationService extends Service implements LocationListener {
 
             Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (gpsLocation != null) {
+                Log.d("EventBusDemo", "Send last Known location!");
                 onLocationChanged(gpsLocation);
             }
         }

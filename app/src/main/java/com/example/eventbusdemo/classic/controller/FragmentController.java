@@ -9,5 +9,7 @@ public interface FragmentController {
 
     void displaySecondFragment();
 
-    boolean isSecondFragmentActive();
+    void displayThirdFragment();
+
+    boolean isFirstFragmentActive();
 }

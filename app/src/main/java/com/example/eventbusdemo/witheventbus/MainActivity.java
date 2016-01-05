@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements ColorChangeListen
         }
         fragmentController.displayFirstFragment();
 
+        startLocationService();
+    }
+
+    private void startLocationService() {
         Intent locationService = new Intent(this, LocationService.class);
         startService(locationService);
     }

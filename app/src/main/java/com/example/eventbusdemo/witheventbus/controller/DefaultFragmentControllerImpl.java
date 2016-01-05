@@ -6,9 +6,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.example.eventbusdemo.R;
-import com.example.eventbusdemo.classic.callback.FragmentChangeCallback;
 import com.example.eventbusdemo.witheventbus.event.FragmentChangeListener;
-import com.example.eventbusdemo.witheventbus.event.InnerFragment;
+import com.example.eventbusdemo.dataset.InnerFragment;
 import com.example.eventbusdemo.witheventbus.fragments.FirstFragment;
 import com.example.eventbusdemo.witheventbus.fragments.SecondFragment;
 

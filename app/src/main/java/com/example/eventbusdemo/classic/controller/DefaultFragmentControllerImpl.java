@@ -10,6 +10,8 @@ import com.example.eventbusdemo.classic.callback.FragmentChangeCallback;
 import com.example.eventbusdemo.classic.callback.ToolbarColorChangeCallback;
 import com.example.eventbusdemo.classic.fragments.FirstFragment;
 import com.example.eventbusdemo.classic.fragments.SecondFragment;
+import com.example.eventbusdemo.classic.fragments.ThirdFragment;
+import com.example.eventbusdemo.dataset.InnerFragment;
 
 /**
  * Created by petnagy on 2015. 12. 30..
@@ -19,6 +21,8 @@ public class DefaultFragmentControllerImpl implements FragmentController, Fragme
     private static final String TAG_FIRST = "firstFragment";
 
     private static final String TAG_SECOND = "secondFragment";
+
+    private static final String TAG_THIRD = "thirdFragment";
 
     private FragmentManager fragmentManager;
 
@@ -40,8 +44,13 @@ public class DefaultFragmentControllerImpl implements FragmentController, Fragme
     }
 
     @Override
-    public boolean isSecondFragmentActive() {
-        Fragment fragment = fragmentManager.findFragmentByTag(TAG_SECOND);
+    public void displayThirdFragment() {
+        replaceFragment(ThirdFragment.newInstance(), TAG_THIRD);
+    }
+
+    @Override
+    public boolean isFirstFragmentActive() {
+        Fragment fragment = fragmentManager.findFragmentByTag(TAG_FIRST);
         return fragment != null;
     }
 
@@ -53,8 +62,12 @@ public class DefaultFragmentControllerImpl implements FragmentController, Fragme
     }
 
     @Override
-    public void onNextFragment() {
-        displaySecondFragment();
+    public void onNextFragment(InnerFragment fragment) {
+        if (fragment.equals(InnerFragment.SECOND)) {
+            displaySecondFragment();
+        } else if (fragment.equals(InnerFragment.THIRD)) {
+            displayThirdFragment();
+        }
         Log.d("EventBusDemo", "Fragment Change Callback");
     }
 }

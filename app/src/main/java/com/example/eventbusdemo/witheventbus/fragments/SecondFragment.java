@@ -24,8 +24,7 @@ public class SecondFragment extends Fragment implements LocationChangeListener {
     private SecondViewController viewController;
 
     public static SecondFragment newInstance() {
-        SecondFragment fragment = new SecondFragment();
-        return fragment;
+        return new SecondFragment();
     }
 
     @Override
@@ -40,7 +39,7 @@ public class SecondFragment extends Fragment implements LocationChangeListener {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().registerSticky(this);
-        EventBus.getDefault().getStickyEvent(Location.class);
+        //EventBus.getDefault().getStickyEvent(Location.class);
     }
 
     @Override

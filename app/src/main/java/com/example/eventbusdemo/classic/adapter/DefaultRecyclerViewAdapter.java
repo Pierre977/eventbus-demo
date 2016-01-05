@@ -12,6 +12,7 @@ import com.example.eventbusdemo.R;
 import com.example.eventbusdemo.classic.callback.FragmentChangeCallback;
 import com.example.eventbusdemo.classic.callback.ToolbarColorChangeCallback;
 import com.example.eventbusdemo.dataset.Color;
+import com.example.eventbusdemo.dataset.InnerFragment;
 
 import java.util.List;
 
@@ -86,20 +87,25 @@ public class DefaultRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 }
             });
         } else if (position == colorList.size()) {
-            ((FragmentItemViewHolder)holder).fragmentChangeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fragmentChangeCallback.onNextFragment();
-                }
-            });
+            setupFragmentChangeButton((FragmentItemViewHolder) holder, InnerFragment.SECOND);
+        } else if (position == colorList.size() + 1) {
+            setupFragmentChangeButton((FragmentItemViewHolder) holder, InnerFragment.THIRD);
         }
+    }
 
+    private void setupFragmentChangeButton(FragmentItemViewHolder holder, final InnerFragment innerFragment) {
+        holder.fragmentChangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentChangeCallback.onNextFragment(innerFragment);
+            }
+        });
     }
 
     @Override
     public int getItemViewType(int position) {
         int type = COLOR_CHANGE_TYPE;
-        if (position == colorList.size()) {
+        if (position == colorList.size() || position == colorList.size() + 1) {
             type = FRAGMENT_CHANGE_TYPE;
         }
 
@@ -108,6 +114,6 @@ public class DefaultRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemCount() {
-        return colorList.size() + 1;
+        return colorList.size() + 2;
     }
 }
