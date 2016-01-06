@@ -6,25 +6,28 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.example.eventbusdemo.R;
-import com.example.eventbusdemo.witheventbus.event.FragmentChangeListener;
+import com.example.eventbusdemo.witheventbus.event.OnFragmentChangeListener;
 import com.example.eventbusdemo.dataset.InnerFragment;
 import com.example.eventbusdemo.witheventbus.fragments.FirstFragment;
 import com.example.eventbusdemo.witheventbus.fragments.SecondFragment;
+import com.example.eventbusdemo.witheventbus.fragments.ThirdFragment;
 
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by petnagy on 2015. 12. 30..
  */
-public class DefaultFragmentControllerImpl implements FragmentController, FragmentChangeListener {
+public class DefaultOnFragmentControllerImpl implements FragmentController, OnFragmentChangeListener {
 
     private static final String TAG_FIRST = "firstFragment";
 
     private static final String TAG_SECOND = "secondFragment";
 
+    private static final String TAG_THIRD = "thirdFragment";
+
     private FragmentManager fragmentManager;
 
-    public DefaultFragmentControllerImpl(FragmentManager fragmentManager) {
+    public DefaultOnFragmentControllerImpl(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
@@ -39,8 +42,13 @@ public class DefaultFragmentControllerImpl implements FragmentController, Fragme
     }
 
     @Override
-    public boolean isSecondFragmentActive() {
-        Fragment fragment = fragmentManager.findFragmentByTag(TAG_SECOND);
+    public void displayThirdFragment() {
+        replaceFragment(ThirdFragment.newInstance(), TAG_THIRD);
+    }
+
+    @Override
+    public boolean isFirstFragmentActive() {
+        Fragment fragment = fragmentManager.findFragmentByTag(TAG_FIRST);
         return fragment != null;
     }
 
@@ -65,6 +73,8 @@ public class DefaultFragmentControllerImpl implements FragmentController, Fragme
     public void onEvent(InnerFragment innerFragment) {
         if (innerFragment.equals(InnerFragment.SECOND)) {
             displaySecondFragment();
+        } else if (innerFragment.equals(InnerFragment.THIRD)) {
+            displayThirdFragment();
         } else {
             displayFirstFragment();
         }

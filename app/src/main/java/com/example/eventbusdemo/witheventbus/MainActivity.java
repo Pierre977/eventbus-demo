@@ -8,14 +8,14 @@ import android.util.Log;
 
 import com.example.eventbusdemo.R;
 import com.example.eventbusdemo.dataset.Color;
-import com.example.eventbusdemo.witheventbus.controller.DefaultFragmentControllerImpl;
+import com.example.eventbusdemo.witheventbus.controller.DefaultOnFragmentControllerImpl;
 import com.example.eventbusdemo.witheventbus.controller.FragmentController;
-import com.example.eventbusdemo.witheventbus.event.ColorChangeListener;
+import com.example.eventbusdemo.witheventbus.event.OnColorChangeListener;
 import com.example.eventbusdemo.witheventbus.service.LocationService;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends AppCompatActivity implements ColorChangeListener {
+public class MainActivity extends AppCompatActivity implements OnColorChangeListener {
 
     private FragmentController fragmentController;
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements ColorChangeListen
         setSupportActionBar(toolbar);
 
         if (fragmentController == null) {
-            fragmentController = new DefaultFragmentControllerImpl(getSupportFragmentManager());
+            fragmentController = new DefaultOnFragmentControllerImpl(getSupportFragmentManager());
         }
         fragmentController.displayFirstFragment();
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements ColorChangeListen
 
     @Override
     public void onBackPressed() {
-        if (fragmentController.isSecondFragmentActive()) {
+        if (!fragmentController.isFirstFragmentActive()) {
             fragmentController.displayFirstFragment();
         } else {
             super.onBackPressed();

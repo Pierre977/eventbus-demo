@@ -88,6 +88,13 @@ public class DefaultRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     EventBus.getDefault().post(InnerFragment.SECOND);
                 }
             });
+        } else if (position == colorList.size() + 1) {
+            ((FragmentItemViewHolder)holder).fragmentChangeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(InnerFragment.THIRD);
+                }
+            });
         }
 
     }
@@ -95,7 +102,7 @@ public class DefaultRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public int getItemViewType(int position) {
         int type = COLOR_CHANGE_TYPE;
-        if (position == colorList.size()) {
+        if (position == colorList.size() || position == colorList.size() + 1) {
             type = FRAGMENT_CHANGE_TYPE;
         }
 
@@ -104,6 +111,6 @@ public class DefaultRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemCount() {
-        return colorList.size() + 1;
+        return colorList.size() + 2;
     }
 }

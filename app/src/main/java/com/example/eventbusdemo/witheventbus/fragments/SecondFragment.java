@@ -12,14 +12,14 @@ import android.view.ViewGroup;
 import com.example.eventbusdemo.R;
 import com.example.eventbusdemo.witheventbus.controller.DefaultSecondViewControllerImpl;
 import com.example.eventbusdemo.witheventbus.controller.SecondViewController;
-import com.example.eventbusdemo.witheventbus.event.LocationChangeListener;
+import com.example.eventbusdemo.witheventbus.event.OnLocationChangeListener;
 
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by petnagy on 2015. 12. 30..
  */
-public class SecondFragment extends Fragment implements LocationChangeListener {
+public class SecondFragment extends Fragment implements OnLocationChangeListener {
 
     private SecondViewController viewController;
 
