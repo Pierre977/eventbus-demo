@@ -12,10 +12,18 @@ import com.example.eventbusdemo.R;
 import com.example.eventbusdemo.classic.controller.DefaultThirdViewControllerImpl;
 import com.example.eventbusdemo.classic.controller.ThirdViewController;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by petnagy on 2015. 12. 30..
  */
 public class ThirdFragment extends Fragment {
+
+    private static final Integer FIRST_PHASE = 10;
+
+    private static final Integer SECOND_PHASE = 20;
+
+    private static final Integer THIRD_PHASE = 30;
 
     private ThirdViewController viewController;
 
@@ -48,10 +56,10 @@ public class ThirdFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        new NetworkAsyncTask().execute();
+        new LongRunningAsyncTask().execute();
     }
 
-    private class NetworkAsyncTask extends AsyncTask<Void, Void, Void> {
+    private class LongRunningAsyncTask extends AsyncTask<Void, Integer, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -60,55 +68,44 @@ public class ThirdFragment extends Fragment {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return null;
-        }
+            publishProgress(10);
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            logMessage.append("\n Emulated Network process finished");
-            viewController.displayLogText(logMessage.toString());
-
-            new NetworkResultProcessAsyncTask().execute();
-        }
-    }
-
-    private class NetworkResultProcessAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return null;
-        }
+            publishProgress(20);
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            logMessage.append("\n Emulated Result process finished");
-            viewController.displayLogText(logMessage.toString());
-
-            new PersistAsyncTask().execute();
-        }
-    }
-
-    private class PersistAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            publishProgress(30);
             return null;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            logMessage.append("\n Emulated Persist process finished");
-            viewController.displayLogText(logMessage.toString());
+        protected void onProgressUpdate(Integer... values) {
+            Integer progress = values[0];
+            if (FIRST_PHASE.equals(progress)) {
+                displayLogMessage("\n Emulated network process finished");
+            } else if (SECOND_PHASE.equals(progress)) {
+                displayLogMessage("\n Emulated network result processing process finished");
+            } else if (THIRD_PHASE.equals(progress)) {
+                displayLogMessage("\n Emulated persist process finished");
+            }
         }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            displayLogMessage("\n Emulated long running process finished");
+        }
+    }
+
+    private void displayLogMessage(String message) {
+        logMessage.append(message);
+        viewController.displayLogText(logMessage.toString());
     }
 }

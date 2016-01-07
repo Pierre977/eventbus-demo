@@ -57,21 +57,18 @@ public class ThirdFragment extends Fragment implements OnBackgroundThreadEventLi
     @Override
     public void onStart() {
         super.onStart();
-
         EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
         EventBus.getDefault().unregister(this);
     }
 
     @Override
     public void onEventMainThread(String message) {
-        logMessage.append(message);
-        viewController.displayLogText(logMessage.toString());
+        displayLogMessage(message);
     }
 
     private class LongRunningAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -84,7 +81,7 @@ public class ThirdFragment extends Fragment implements OnBackgroundThreadEventLi
                 e.printStackTrace();
             }
 
-            EventBus.getDefault().post("\n Emulated Network process finished");
+            EventBus.getDefault().post("\n Emulated network process finished");
 
             try {
                 Thread.sleep(2000);
@@ -92,7 +89,7 @@ public class ThirdFragment extends Fragment implements OnBackgroundThreadEventLi
                 e.printStackTrace();
             }
 
-            EventBus.getDefault().post("\n Emulated Result process finished");
+            EventBus.getDefault().post("\n Emulated network result processing process finished");
 
             try {
                 Thread.sleep(2000);
@@ -100,15 +97,19 @@ public class ThirdFragment extends Fragment implements OnBackgroundThreadEventLi
                 e.printStackTrace();
             }
 
-            EventBus.getDefault().post("\n Emulated Persist process finished");
+            EventBus.getDefault().post("\n Emulated persist process finished");
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            logMessage.append("\n Emulated Long running process finished");
-            viewController.displayLogText(logMessage.toString());
+            displayLogMessage("\n Emulated long running process finished");
         }
+    }
+
+    private void displayLogMessage(String message) {
+        logMessage.append(message);
+        viewController.displayLogText(logMessage.toString());
     }
 
 }
